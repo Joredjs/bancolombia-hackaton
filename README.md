@@ -4,7 +4,10 @@
 
 ***Tabla de contenido***
 
-[[_TOC_]]
+- [Codigotón Bancolombia](#codigotón-bancolombia)
+  - [Descripción](#descripción)
+  - [Instalación y uso](#instalación-y-uso)
+  - [Créditos](#créditos)
 
 ## Descripción
 
