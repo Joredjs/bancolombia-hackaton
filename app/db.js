@@ -61,7 +61,27 @@ var _init = async function(){
   return objResponse;
 }
 
+var _ordenarClientes = async function(wh){
+
+  var objResponse = {
+    "isError":true,
+    "response":"ok"
+  };
+
+  var query = "SELECT * FROM client AS c INNER JOIN ( SELECT client_id,SUM(balance) AS total FROM account group BY client_id ) AS b ON c.id = b.client_id "+(wh?"WHERE "+wh:'')+" ORDER BY b.total desc,c.code asc";
+
+  const result = await doQuery(query);
+
+  if(result){
+    objResponse.isError = false;
+  }
+  objResponse.response = result;
+
+  return objResponse;
+}
+
 
 module.exports = {
-  init:_init
+  init:_init,
+  obtener:_ordenarClientes
 }
