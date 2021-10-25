@@ -8,6 +8,7 @@
   - [Descripción](#descripción)
   - [Instalación y uso](#instalación-y-uso)
   - [Proceso Desarrollo](#proceso-desarrollo)
+  - [Diagramas](#diagramas)
   - [Créditos](#créditos)
 
 ## Descripción
@@ -114,11 +115,14 @@ Dentro de este servicio se ejecutan varios procesos que se explican a continuaci
 8. Se recorta la lista de invitados para que no se pase del tope máximo de asientos disponibles
 9. Salida
 
+## Diagramas
+
 ```mermaid
 graph LR
     A(( Get )) -.init.->B[(Crear y poblar BD)]
-    C(( Post )) -.grupos.->D{Formato válido}
 ```
+
+![Servicio Get](get.svg)
 
 ```mermaid
 graph TD
@@ -133,6 +137,8 @@ graph TD
     I -.-> J[[Lista de invitados]]
     J ==> K>Lista en formato de salida]
 ```
+
+![Servicio Post](post.svg)
 
 ## Créditos
 
