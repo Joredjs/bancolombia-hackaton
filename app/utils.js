@@ -123,8 +123,8 @@ async function decrypt(mesas){
     const clDecrypt = await Promise.all(
       mesa.disponibles.map(async (cl)=>{
         if(cl.encrypt){
-          cl.code = await axios.get("https://test.evalartapp.com/extapiquest/code_decrypt/"+cl.code);
-          //cl.code = new Buffer.from(cl.code, 'base64').toString('utf-8');
+          //cl.code = await axios.get("https://test.evalartapp.com/extapiquest/code_decrypt/"+cl.code);
+          cl.code = new Buffer.from(cl.code, 'base64').toString('utf-8');
         }
         return cl;
       })
@@ -231,13 +231,9 @@ function getInvitados(mesas,maxInvitados){
   return mesas;
 }
 
-async function _organizar(mesas){
+async function _organizar(mesas,maxInvitados){
   
   return new Promise(function(resolve){
-    //TODO: Almacenarlo en variable de entorno o recibirlo como parámetro
-    var maxInvitados=8;
-
-    maxInvitados=maxInvitados-maxInvitados%2;
     decrypt(mesas)
     .then((mesas)=>{
       mesas=getInfoMesa(mesas);
@@ -284,6 +280,33 @@ function equalizeGender(clientes,max){
 
 }
 
+function _formatoSalida(mesas,maxInvitados){
+  var salidaTxT="";
+  var line = "\n";
+  mesas.forEach((v,k)=>{
+    if(v.nombre,v.invitadosFinales){
+      salidaTxT+="<"+v.nombre+">"+line;
+      c=0;
+      var cantInvitados=v.invitadosFinales.length;
+      if(cantInvitados>=maxInvitados/2){
+        v.invitadosFinales.forEach((v2,k2)=>{
+          
+            var coma=c<cantInvitados-1?",":"";
+            if(v2.code){
+              salidaTxT+=v2.code+coma;
+            }
+            c+=1;
+        });
+      }else{
+        salidaTxT+="CANCELADA";
+      }
+      salidaTxT+=line;
+    }
+  });
+  
+  return salidaTxT;
+}
+
 
 exports.entrada = {
   validar:_validarEntrada,
@@ -292,5 +315,5 @@ exports.entrada = {
 };
 
 exports.salida = {
-  
+  formato:_formatoSalida
 };

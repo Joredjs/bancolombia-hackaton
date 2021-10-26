@@ -35,8 +35,14 @@ app.post('/grupos',function(req,res){
       if(validEntrada?.response?.mesas){
         entrada.filtrarMesa(validEntrada.response.mesas,db)
         .then((mesas)=>{
-          entrada.organizar(mesas).then(invitados=>{
-            res.send(invitados);
+          //TODO: Almacenarlo en variable de entorno o recibirlo como parámetro
+          var maxInvitados=8;
+          maxInvitados=maxInvitados-maxInvitados%2;
+
+          entrada.organizar(mesas,maxInvitados)
+          .then(invitados=>{
+            res.set('Content-Type', 'text/plain');
+            res.send(salida.formato(invitados,maxInvitados));
           });
           
         });
